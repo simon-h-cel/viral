@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VIRAL ALLURE</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#080808;color:#e0e0e0;font-family:system-ui,sans-serif;font-size:14px}
+h1{font-size:20px;font-weight:900;letter-spacing:4px;color:#ff5500;text-align:center;padding:14px 0 2px}
+.sub{text-align:center;font-size:10px;color:#444;letter-spacing:3px;padding-bottom:10px}
+.divider{height:1px;background:linear-gradient(90deg,transparent,#ff5500,transparent)}
+
+/* TABS */
+.tabs{display:flex}
+.tb{flex:1;padding:11px 4px;text-align:center;font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer;background:#0f0f0f;border-bottom:2px solid #1a1a1a;color:#444;transition:all .2s}
+.tb.on{background:#0f0f0f;border-bottom:2px solid #ff5500;color:#ff6600}
+.tab-content{display:none;padding:12px}
+.tab-content.on{display:block}
+
+/* COMMON */
+.panel{background:#111;border:1px solid #222;border-radius:10px;padding:14px;margin-bottom:12px}
+.sec{font-size:12px;font-weight:700;letter-spacing:2px;color:#ff6600;margin-bottom:8px}
+.lbl{font-size:10px;letter-spacing:2px;color:#555;text-transform:uppercase;margin-bottom:4px}
+select,textarea{width:100%;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:7px;color:#e0e0e0;font-size:13px;padding:9px 11px;outline:none;font-family:system-ui,sans-serif}
+select:focus,textarea:focus{border-color:#ff5500}
+select option{background:#1a1a1a}
+textarea{resize:vertical;min-height:55px;line-height:1.4}
+.fg{margin-bottom:10px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+
+/* PILLS */
+.pills{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+.pill{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:4px 11px;font-size:12px;cursor:pointer;color:#888;transition:all .2s}
+.pill.on{border-color:#ff5500;background:#1f0900;color:#ff7700}
+
+/* BUTTONS */
+.btn{width:100%;padding:13px;background:#ff5500;border:none;border-radius:8px;font-size:15px;font-weight:900;letter-spacing:3px;color:#fff;cursor:pointer;margin-top:6px}
+.btn:disabled{background:#2a2a2a;color:#555;cursor:not-allowed}
+.btn2{background:#1a1a1a;border:1px solid #333;border-radius:7px;padding:8px 14px;font-size:12px;font-weight:700;color:#aaa;cursor:pointer;letter-spacing:1px}
+.btn2:hover{border-color:#ff5500;color:#ff7700}
+.btn2.pri{background:#1f0900;border-color:#ff5500;color:#ff7700}
+
+/* OUTPUT */
+.out{display:none;flex-direction:column;gap:8px;margin-top:10px}
+.out.on{display:flex}
+.card{background:#111;border:1px solid #222;border-radius:8px;overflow:hidden}
+.ch{background:#180800;border-bottom:1px solid #222;padding:9px 12px;display:flex;align-items:center;justify-content:space-between}
+.clbl{font-size:11px;font-weight:700;letter-spacing:2px;color:#ff6600}
+.cpb{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:5px;padding:4px 10px;font-size:11px;font-weight:700;color:#ff7700;cursor:pointer}
+.cpb.ok{color:#4caf50;border-color:#4caf50}
+.cb{padding:12px;font-family:monospace;font-size:12px;line-height:1.75;color:#bbb;white-space:pre-wrap;word-break:break-word}
+.card.hk .cb{font-size:14px;color:#4caf50;font-weight:700;font-family:system-ui}
+.card.tt .cb{font-size:14px;color:#fff;font-weight:700;font-family:system-ui}
+.card.tg .cb{font-size:13px;color:#ff8800;font-family:system-ui}
+.card.ed .cb{font-size:12px;color:#64b5f6;font-family:system-ui}
+.metabar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+.badge{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;padding:2px 9px;font-size:10px;color:#ff6600;font-family:monospace}
+.cpmbadge{background:#ff5500;border-radius:4px;padding:2px 8px;font-size:10px;color:#fff;font-weight:700}
+.rebar{display:flex;gap:8px;margin-top:4px}
+.err{display:none;background:#1a0000;border:1px solid #500;border-radius:8px;padding:10px 12px;color:#f66;font-size:12px;margin-top:8px}
+.err.on{display:block}
+.ld{display:none;text-align:center;padding:24px}
+.ld.on{display:block}
+.ld p{font-size:12px;font-weight:700;letter-spacing:3px;color:#ff6600;margin-top:8px}
+
+/* CALENDAR TAB */
+.days-row{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:12px}
+.day-btn{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;padding:8px 2px;text-align:center;cursor:pointer;transition:all .2s}
+.day-btn:hover{border-color:#ff5500}
+.day-btn.on{border-color:#ff5500;background:#1f0900}
+.day-name{font-size:10px;font-weight:700;letter-spacing:1px;color:#555;display:block}
+.day-btn.on .day-name{color:#ff6600}
+.day-flags{font-size:14px;display:block;margin-top:2px}
+
+.schedule{display:none}
+.schedule.on{display:block}
+.sch-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.sch-title{font-size:14px;font-weight:700;color:#ff6600;letter-spacing:2px}
+.post-slot{background:#111;border:1px solid #222;border-radius:8px;margin-bottom:8px;overflow:hidden}
+.slot-head{display:flex;align-items:center;gap:10px;padding:10px 12px;background:#150800;border-bottom:1px solid #222}
+.slot-num{background:#ff5500;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0}
+.slot-time{font-size:13px;font-weight:700;color:#fff;letter-spacing:1px}
+.slot-country{font-size:12px;color:#ff7700;margin-left:auto}
+.slot-body{padding:10px 12px}
+.slot-type{font-size:12px;font-weight:700;color:#e0e0e0;margin-bottom:4px}
+.slot-slogan{font-size:11px;color:#ff8800;font-style:italic;margin-bottom:6px;line-height:1.5}
+.slot-tags{font-size:10px;color:#555;font-family:monospace}
+.notif-btn{background:#1a1a1a;border:1px solid #333;border-radius:5px;padding:4px 10px;font-size:10px;font-weight:700;color:#aaa;cursor:pointer;margin-top:6px;display:inline-flex;align-items:center;gap:4px}
+.notif-btn.set{border-color:#4caf50;color:#4caf50}
+.country-tip{background:#0d1a0d;border:1px solid #1a331a;border-radius:8px;padding:10px 12px;margin-top:10px}
+.tip-title{font-size:11px;font-weight:700;color:#4caf50;letter-spacing:2px;margin-bottom:6px}
+.tip-row{display:flex;justify-content:space-between;font-size:11px;color:#888;padding:2px 0;border-bottom:1px solid #1a1a1a}
+.tip-row:last-child{border:none}
+.tip-val{color:#ccc;font-weight:700}
+
+/* NOTIF TAB */
+.notif-card{background:#111;border:1px solid #222;border-radius:8px;padding:12px;margin-bottom:8px}
+.notif-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.notif-label{font-size:12px;font-weight:700;color:#e0e0e0}
+.notif-sub{font-size:10px;color:#555;margin-top:2px}
+.toggle{width:44px;height:24px;background:#2a2a2a;border-radius:12px;position:relative;cursor:pointer;transition:background .2s;flex-shrink:0}
+.toggle.on{background:#ff5500}
+.toggle::after{content:'';position:absolute;width:18px;height:18px;background:#fff;border-radius:50%;top:3px;left:3px;transition:left .2s}
+.toggle.on::after{left:23px}
+.notif-list{margin-top:10px}
+.notif-item{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #1a1a1a;font-size:12px;color:#888}
+.notif-item:last-child{border:none}
+.notif-dot{width:8px;height:8px;border-radius:50%;background:#ff5500;flex-shrink:0}
+.notif-dot.ok{background:#4caf50}
+.perm-box{background:#1a0a00;border:1px solid #ff550033;border-radius:8px;padding:12px;text-align:center;margin-bottom:10px}
+.perm-btn{background:#ff5500;border:none;border-radius:7px;padding:10px 20px;font-size:13px;font-weight:700;color:#fff;cursor:pointer;letter-spacing:2px;margin-top:8px}
+
+/* TEMPLATES */
+.tpls{display:none;flex-direction:column;gap:6px}
+.tpls.on{display:flex}
+.tc{background:#111;border:1px solid #222;border-radius:8px;padding:10px;position:relative}
+.tc.on{border-color:#ff5500;background:#150800}
+.tn{display:flex;align-items:center;gap:7px;margin-bottom:3px}
+.tnum{font-size:16px;font-weight:900;color:#ff5500;min-width:24px}
+.ttit{font-size:12px;font-weight:700;color:#e0e0e0;flex:1;line-height:1.3}
+.tbadge{font-size:9px;background:#1f0900;border:1px solid #ff5500;border-radius:8px;padding:2px 7px;color:#ff6600}
+.tdesc{font-size:11px;color:#666;line-height:1.4;margin-bottom:3px}
+.tchant{font-size:11px;color:#ff7700;font-style:italic;margin-bottom:6px}
+.tuse{background:#ff5500;border:none;border-radius:5px;padding:5px 12px;font-size:11px;font-weight:700;color:#fff;cursor:pointer}
+</style>
+</head>
+<body>
+
+<h1>🔥 VIRAL ALLURE</h1>
+<div class="sub">AI PROMPT GENERATOR — CPM OPTIMIZER</div>
+<div class="divider"></div>
+
+<div class="tabs">
+  <div class="tb on" onclick="swTab('gen',this)">🎬 GENERE</div>
+  <div class="tb" onclick="swTab('cal',this)">📅 KALANDRIYE</div>
+  <div class="tb" onclick="swTab('notif',this)">🔔 NOTIF</div>
+  <div class="tb" onclick="swTab('tpl',this)">⭐ MODÈL</div>
+</div>
+
+<!-- =================== TAB GENERE =================== -->
+<div id="tab-gen" class="tab-content on">
+
+  <div class="panel">
+    <div class="sec">🌍 PEYI CPM — Chwazi</div>
+    <div class="pills" id="cPills">
+      <div class="pill on" data-c="Australia" data-f="🇦🇺" data-city="Sydney" data-cpm="36">🇦🇺 Sydney <small style="color:#555">$36</small></div>
+      <div class="pill" data-c="Australia" data-f="🇦🇺" data-city="Melbourne" data-cpm="36">🇦🇺 Melbourne <small style="color:#555">$36</small></div>
+      <div class="pill" data-c="Norway" data-f="🇳🇴" data-city="Oslo" data-cpm="20">🇳🇴 Oslo <small style="color:#555">$20</small></div>
+      <div class="pill" data-c="Germany" data-f="🇩🇪" data-city="Berlin" data-cpm="19">🇩🇪 Berlin <small style="color:#555">$19</small></div>
+      <div class="pill" data-c="Germany" data-f="🇩🇪" data-city="Munich" data-cpm="19">🇩🇪 Munich <small style="color:#555">$19</small></div>
+      <div class="pill" data-c="USA" data-f="🇺🇸" data-city="New York" data-cpm="16">🇺🇸 NYC <small style="color:#555">$16</small></div>
+      <div class="pill" data-c="USA" data-f="🇺🇸" data-city="Los Angeles" data-cpm="16">🇺🇸 LA <small style="color:#555">$16</small></div>
+      <div class="pill" data-c="USA" data-f="🇺🇸" data-city="Dallas" data-cpm="16">🇺🇸 Dallas <small style="color:#555">$16</small></div>
+      <div class="pill" data-c="UK" data-f="🇬🇧" data-city="London" data-cpm="15">🇬🇧 London <small style="color:#555">$15</small></div>
+      <div class="pill" data-c="Switzerland" data-f="🇨🇭" data-city="Zurich" data-cpm="14">🇨🇭 Zurich <small style="color:#555">$14</small></div>
+      <div class="pill" data-c="Canada" data-f="🇨🇦" data-city="Toronto" data-cpm="13">🇨🇦 Toronto <small style="color:#555">$13</small></div>
+      <div class="pill" data-c="Canada" data-f="🇨🇦" data-city="Vancouver" data-cpm="13">🇨🇦 Vancouver <small style="color:#555">$13</small></div>
+      <div class="pill" data-c="South Korea" data-f="🇰🇷" data-city="Seoul" data-cpm="9">🇰🇷 Seoul <small style="color:#555">$9</small></div>
+      <div class="pill" data-c="France" data-f="🇫🇷" data-city="Paris" data-cpm="8">🇫🇷 Paris <small style="color:#555">$8</small></div>
+      <div class="pill" data-c="Netherlands" data-f="🇳🇱" data-city="Amsterdam" data-cpm="8">🇳🇱 Amsterdam <small style="color:#555">$8</small></div>
+      <div class="pill" data-c="Spain" data-f="🇪🇸" data-city="Madrid" data-cpm="7">🇪🇸 Madrid <small style="color:#555">$7</small></div>
+      <div class="pill" data-c="Czech Republic" data-f="🇨🇿" data-city="Prague" data-cpm="7">🇨🇿 Prague <small style="color:#555">$7</small></div>
+      <div class="pill" data-c="Turkey" data-f="🇹🇷" data-city="Istanbul" data-cpm="5">🇹🇷 Istanbul <small style="color:#555">$5</small></div>
+      <div class="pill" data-c="Brazil" data-f="🇧🇷" data-city="Sao Paulo" data-cpm="4">🇧🇷 São Paulo <small style="color:#555">$4</small></div>
+    </div>
+
+    <!-- SLOGAN ADAPTE PA PEYI -->
+    <div id="sloganBox" class="country-tip" style="display:none">
+      <div class="tip-title" id="sloganTitle">🎯 SLOGAN ADAPTE</div>
+      <div id="sloganList"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="sec">🎬 KONFIGIRASYON</div>
+
+    <div class="sec" style="font-size:11px;margin-bottom:6px">Tip Sèn</div>
+    <div class="pills" id="sPills">
+      <div class="pill on" data-s="aerial">🚁 Aerial</div>
+      <div class="pill" data-s="stadium">🏟️ Stadium</div>
+      <div class="pill" data-s="bridge">🌉 Bridge</div>
+      <div class="pill" data-s="square">🌆 Square</div>
+      <div class="pill" data-s="concert">🎤 Concert</div>
+      <div class="pill" data-s="vlog">📱 Vlog</div>
+      <div class="pill" data-s="protest">✊ Protest</div>
+      <div class="pill" data-s="government">🏛️ Gov Hall</div>
+      <div class="pill" data-s="military">🎖️ Military</div>
+      <div class="pill" data-s="march">🕯️ March</div>
+    </div>
+
+    <div class="g2">
+      <div class="fg">
+        <div class="lbl">Tèm Chant</div>
+        <select id="theme">
+          <option value="auto">🤖 AUTO (peyi adapte)</option>
+          <option value="aus">🇦🇺 Australia Stands</option>
+          <option value="ger">🇩🇪 Germany United</option>
+          <option value="usa">🇺🇸 America Speaks</option>
+          <option value="uk">🇬🇧 Britain Stands</option>
+          <option value="can">🇨🇦 Canada United</option>
+          <option value="nor">🇳🇴 Norway Stands</option>
+          <option value="swi">🇨🇭 Swiss Hearts</option>
+          <option value="kor">🇰🇷 Korea United</option>
+          <option value="fra">🇫🇷 France Debout</option>
+          <option value="ned">🇳🇱 Netherlands Stands</option>
+          <option value="humanity">🕊️ Humanity Peace</option>
+          <option value="stopwar">🚫 Choose Peace</option>
+          <option value="freedom">✊ Freedom For All</option>
+          <option value="unity">🌍 Unity Solidarity</option>
+          <option value="justice">⚖️ Justice For All</option>
+          <option value="children">👶 Save The Children</option>
+          <option value="palestine">🇵🇸 Stand For Palestine</option>
+          <option value="iran">🇮🇷 Freedom For Iran</option>
+          <option value="nokings">👑 Power To The People</option>
+          <option value="noice">🧊 Dignity For All</option>
+          <option value="armenia">🇦🇲 Free Armenia</option>
+          <option value="kurdistan">☀️ Free Kurdistan</option>
+          <option value="yemen">🇾🇪 Free Yemen</option>
+          <option value="tears">😢 Emosyon sèlman</option>
+        </select>
+      </div>
+      <div class="fg">
+        <div class="lbl">Artis</div>
+        <select id="artist">
+          <option value="female artist silhouette backlit on barrier">👩 Female (silhouette)</option>
+          <option value="female black hoodie on stadium barrier backlit">👩 Female (hoodie)</option>
+          <option value="woman vlog selfie back angle">📱 Vlog (do bò)</option>
+          <option value="male military veteran back angle uniform">🎖️ Military</option>
+          <option value="male chant leader megaphone back to camera">📢 Lidè</option>
+          <option value="no artist crowd only">🌊 Foul sèlman</option>
+        </select>
+      </div>
+      <div class="fg">
+        <div class="lbl">Moman</div>
+        <select id="timeof">
+          <option value="night">🌙 Lannuit</option>
+          <option value="golden hour">🌅 Golden Hour</option>
+          <option value="afternoon">☀️ Aprèmidi</option>
+        </select>
+      </div>
+      <div class="fg">
+        <div class="lbl">Atmosfè</div>
+        <select id="mood">
+          <option value="explosive viral red flares smoke">💥 Explosive</option>
+          <option value="emotional cinematic slow motion">🎬 Emotional</option>
+          <option value="documentary realism">📰 Documentary</option>
+          <option value="raw chaotic handheld">🎥 Raw Chaotic</option>
+          <option value="candlelit emotional unity">🕯️ Chandèl</option>
+        </select>
+      </div>
+      <div class="fg">
+        <div class="lbl">Foul</div>
+        <select id="crowd">
+          <option value="tens of thousands">Dizèn de milye</option>
+          <option value="hundreds of thousands">Santèn de milye</option>
+          <option value="over one million">Plis pase 1M</option>
+        </select>
+      </div>
+      <div class="fg">
+        <div class="lbl">Kalite</div>
+        <select id="qual">
+          <option value="1080p HD ULTRA hyper-realistic cinematic">1080p HD ULTRA</option>
+          <option value="4K ultra-realistic cinematic">4K Cinematic</option>
+        </select>
+      </div>
+    </div>
+    <div class="fg">
+      <div class="lbl">Detay anplis</div>
+      <textarea id="extra" placeholder="Ex: giant mosque, rain, drums, colored smoke, phone lights..."></textarea>
+    </div>
+    <button class="btn" id="genBtn" onclick="doGen()">⚡ GENERE PROMPT</button>
+    <div class="err" id="errbox"></div>
+  </div>
+
+  <div class="ld" id="loader"><div style="font-size:36px">🔥</div><p>AP GENERE...</p></div>
+
+  <div class="out" id="out">
+    <div class="metabar">
+      <div class="badge" id="gc">Gen #1</div>
+      <div class="cpmbadge" id="cpmbadge">CPM $36 🇦🇺</div>
+      <div class="badge" id="sbadge">Aerial</div>
+      <div class="badge" id="cbadge">Sydney</div>
+    </div>
+    <div class="card hk"><div class="ch"><div class="clbl">⚡ HOOK 0-2s</div><button class="cpb" onclick="cp('hook',this)">Kopye</button></div><div class="cb" id="hook"></div></div>
+    <div class="card"><div class="ch"><div class="clbl">🎬 PROMPT 6s KONPLÈ</div><button class="cpb" onclick="cp('prompt',this)">Kopye</button></div><div class="cb" id="prompt"></div></div>
+    <div class="card tt"><div class="ch"><div class="clbl">📌 TITRE</div><button class="cpb" onclick="cp('title',this)">Kopye</button></div><div class="cb" id="title"></div></div>
+    <div class="card tg"><div class="ch"><div class="clbl">🏷️ TAGS</div><button class="cpb" onclick="cp('tags',this)">Kopye</button></div><div class="cb" id="tags"></div></div>
+    <div class="card ed"><div class="ch"><div class="clbl">📅 POSTING + EDISYON</div><button class="cpb" onclick="cp('edit',this)">Kopye</button></div><div class="cb" id="edit"></div></div>
+    <div class="rebar">
+      <button class="btn2" onclick="doReset()">↩ Chanje</button>
+      <button class="btn2 pri" onclick="doGen()">🔥 Ankò</button>
+    </div>
+  </div>
+
+  <!-- TEMPLATES inside gen tab -->
+  <div class="panel" style="margin-top:10px">
+    <div class="sec">⭐ MODÈL RAPID (klike → chanje → genere)</div>
+    <div class="tpls on" id="tplGrid"></div>
+  </div>
+</div>
+
+<!-- =================== TAB KALANDRIYE =================== -->
+<div id="tab-cal" class="tab-content">
+  <div class="panel">
+    <div class="sec">📅 CHWAZI JOU A</div>
+    <div class="days-row" id="daysRow"></div>
+    <div class="schedule" id="scheduleBox">
+      <div class="sch-header">
+        <div class="sch-title" id="schTitle"></div>
+        <div style="font-size:10px;color:#555">4 videyo — 2 peyi</div>
+      </div>
+      <div id="schSlots"></div>
+      <div id="countryTipBox"></div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="sec">📊 REZIME SEMÈN</div>
+    <div style="font-size:12px;color:#888;line-height:1.8">
+      <div style="display:flex;justify-content:space-between;border-bottom:1px solid #1a1a1a;padding:4px 0"><span>Total videyo/semèn</span><span style="color:#ff6600;font-weight:700">28 videyo</span></div>
+      <div style="display:flex;justify-content:space-between;border-bottom:1px solid #1a1a1a;padding:4px 0"><span>Peyi sible</span><span style="color:#ff6600;font-weight:700">10 peyi</span></div>
+      <div style="display:flex;justify-content:space-between;border-bottom:1px solid #1a1a1a;padding:4px 0"><span>CPM mwayen espere</span><span style="color:#4caf50;font-weight:700">$14-20</span></div>
+      <div style="display:flex;justify-content:space-between;border-bottom:1px solid #1a1a1a;padding:4px 0"><span>Revni espere/mwa</span><span style="color:#4caf50;font-weight:700">$150-400</span></div>
+      <div style="display:flex;justify-content:space-between;padding:4px 0"><span>Interval posting</span><span style="color:#ff6600;font-weight:700">3h ant chak</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== TAB NOTIFIKASYON =================== -->
+<div id="tab-notif" class="tab-content">
+  <div class="panel">
+    <div class="perm-box" id="permBox">
+      <div style="font-size:28px">🔔</div>
+      <div style="font-size:13px;font-weight:700;color:#e0e0e0;margin-top:8px">Aktive Notifikasyon yo</div>
+      <div style="font-size:11px;color:#666;margin-top:4px">Resevwa alèt 30 minit avan chak lè posting</div>
+      <button class="perm-btn" onclick="reqPerm()">AKTIVE NOTIFIKASYON</button>
+    </div>
+    <div id="permOk" style="display:none;text-align:center;padding:10px">
+      <div style="font-size:24px">✅</div>
+      <div style="font-size:12px;color:#4caf50;font-weight:700;margin-top:6px">Notifikasyon aktive!</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="sec">⚙️ PARAMÈT NOTIFIKASYON</div>
+    <div class="notif-card">
+      <div class="notif-row">
+        <div><div class="notif-label">🔔 30 min avan posting</div><div class="notif-sub">Alèt pou prepare videyo a</div></div>
+        <div class="toggle on" id="tog1" onclick="togSwitch(this)"></div>
+      </div>
+      <div class="notif-row">
+        <div><div class="notif-label">📋 Tip kontni jou a</div><div class="notif-sub">Rap kout: ki videyo, ki peyi, ki slogan</div></div>
+        <div class="toggle on" id="tog2" onclick="togSwitch(this)"></div>
+      </div>
+      <div class="notif-row" style="margin-bottom:0">
+        <div><div class="notif-label">📊 Rapò semèn</div><div class="notif-sub">Dimanch swa — rezime pèfòmans</div></div>
+        <div class="toggle" id="tog3" onclick="togSwitch(this)"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="sec">📋 NOTIFIKASYON JODI A</div>
+    <div class="notif-list" id="todayNotifs"></div>
+  </div>
+
+  <div class="panel">
+    <div class="sec">🗓️ TOUT NOTIFIKASYON SEMÈN</div>
+    <div class="notif-list" id="weekNotifs"></div>
+  </div>
+</div>
+
+<!-- =================== TAB MODÈL =================== -->
+<div id="tab-tpl" class="tab-content">
+  <div class="panel">
+    <div style="font-size:11px;color:#555;margin-bottom:10px">⭐ Klike Itilize → al tab Genere → peze ⚡</div>
+    <div class="tpls on" id="tplGridFull"></div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+var SLOGANS = {
+  Australia: {
+    flag:'🇦🇺', cpm:36,
+    slogans:['Australia Stands For Humanity','Every Voice Matters — Humanity United','We Choose Hope Over Hate','Australia — One Voice For All','Australian Hearts Beat As One'],
+    tags:'#Australia #Sydney #Melbourne #Humanity #AiShort',
+    postTime:'7PM-9PM Sydney = 2AM-4AM CST'
+  },
+  Norway: {
+    flag:'🇳🇴', cpm:20,
+    slogans:['Norway Stands For Every Human Soul','Oslo Speaks — Peace For All','Nordic Unity — One Voice','Norway — Where Humanity Comes First','Nordic Hearts United'],
+    tags:'#Norway #Oslo #Nordic #PeaceForAll #AiShort',
+    postTime:'7PM-9PM Oslo = 12PM-2PM CST'
+  },
+  Germany: {
+    flag:'🇩🇪', cpm:19,
+    slogans:['Germany United — One Voice For Peace','Wir Stehen Zusammen','Deutschland Steht Für Frieden','Ein Volk Eine Stimme','German Hearts Beat For All'],
+    tags:'#Germany #Berlin #Munich #Deutschland #AiShort',
+    postTime:'7PM-9PM Berlin = 12PM-2PM CST'
+  },
+  USA: {
+    flag:'🇺🇸', cpm:16,
+    slogans:['America Speaks — We Choose Peace','The People Have A Voice','United We Stand — Always','This Is What Democracy Looks Like','We The People — For Peace'],
+    tags:'#USA #America #NewYork #WeThePeople #AiShort',
+    postTime:'7PM-9PM EST = 6PM-8PM CST'
+  },
+  UK: {
+    flag:'🇬🇧', cpm:15,
+    slogans:['Britain Stands For Justice','United Kingdom United For Peace','London Speaks For Humanity','The Peoples Voice — UK','One Nation One Hope'],
+    tags:'#UK #London #Britain #Justice #AiShort',
+    postTime:'7PM-9PM London = 1PM-3PM CST'
+  },
+  Switzerland: {
+    flag:'🇨🇭', cpm:14,
+    slogans:['Switzerland — Neutral But Never Silent','Swiss Hearts Beat For Peace','Geneva Speaks For The World','Switzerland United For Humanity'],
+    tags:'#Switzerland #Zurich #Geneva #SwissUnited #AiShort',
+    postTime:'7PM-9PM Zurich = 12PM-2PM CST'
+  },
+  Canada: {
+    flag:'🇨🇦', cpm:13,
+    slogans:['Canada Stands For All Humanity','True North Strong And Free For All','Canadian Hearts United','We Stand Together — Canada','Peace Is Our Strength'],
+    tags:'#Canada #Toronto #Vancouver #TrueNorth #AiShort',
+    postTime:'7PM-9PM Toronto = 6PM-8PM CST'
+  },
+  'South Korea': {
+    flag:'🇰🇷', cpm:9,
+    slogans:['Korea Stands — One World One Voice','Seoul United For Humanity','K-Power For Peace','Korea Speaks For All'],
+    tags:'#Korea #Seoul #KPop #GlobalUnity #AiShort',
+    postTime:'8PM-10PM Seoul = 5AM-7AM CST'
+  },
+  France: {
+    flag:'🇫🇷', cpm:8,
+    slogans:['Liberté Égalité Humanité','La France Debout Pour La Paix','Le Peuple Parle — France Unie','Paris Crie Pour L\'Humanité'],
+    tags:'#France #Paris #Liberté #HumanitéUnie #AiShort',
+    postTime:'7PM-9PM Paris = 12PM-2PM CST'
+  },
+  Netherlands: {
+    flag:'🇳🇱', cpm:8,
+    slogans:['Netherlands Standing For Every Soul','Amsterdam United One Voice','Holland Speaks For Humanity','Dutch Hearts Global Unity'],
+    tags:'#Netherlands #Amsterdam #Holland #Unity #AiShort',
+    postTime:'7PM-9PM Amsterdam = 12PM-2PM CST'
+  },
+  Spain: {
+    flag:'🇪🇸', cpm:7,
+    slogans:['España Unida Por La Humanidad','Spain Stands As One','Madrid Speaks For All','One Spain One Voice For Peace'],
+    tags:'#Spain #Madrid #España #Unity #AiShort',
+    postTime:'7PM-9PM Madrid = 12PM-2PM CST'
+  }
+};
+
+var CHANTS = {
+  auto:     {c:'AUTO',r:'AUTO',f:'AUTO'},
+  aus:      {c:'AUSTRALIA DO WE STAND TOGETHER?!',r:'YES! AUSTRALIA UNITED! ONE VOICE!',f:'EVERY SOUL MATTERS! AUSTRALIA AS ONE!'},
+  ger:      {c:'GERMANY DO WE STAND FOR PEACE?!',r:'YES! GERMANY UNITED! WRIR STEHEN ZUSAMMEN!',f:'EIN VOLK EINE STIMME! GERMANY AS ONE!'},
+  usa:      {c:'AMERICA WHAT DO WE CHOOSE?!',r:'PEACE! WE CHOOSE PEACE! THE PEOPLE SPEAK!',f:'UNITED WE STAND! WE THE PEOPLE! ALWAYS!'},
+  uk:       {c:'BRITAIN DO WE STAND FOR JUSTICE?!',r:'YES! BRITAIN STANDS! ONE NATION ONE HOPE!',f:'THE PEOPLES VOICE! UK UNITED! JUSTICE FOR ALL!'},
+  can:      {c:'CANADA ARE WE UNITED?!',r:'YES! TRUE NORTH STRONG AND FREE!',f:'CANADIAN HEARTS AS ONE! PEACE IS OUR STRENGTH!'},
+  nor:      {c:'NORWAY DO WE STAND FOR HUMANITY?!',r:'YES! NORDIC UNITY! ONE VOICE FOR ALL!',f:'NORWAY STANDS! PEACE FOR EVERY SOUL!'},
+  swi:      {c:'SWITZERLAND DO WE SPEAK?!',r:'YES! SWISS HEARTS UNITED! NEVER SILENT!',f:'GENEVA SPEAKS! SWITZERLAND AS ONE!'},
+  kor:      {c:'KOREA ARE WE ONE?!',r:'YES! KOREA UNITED! K-POWER FOR PEACE!',f:'SEOUL SPEAKS! ONE WORLD ONE VOICE!'},
+  fra:      {c:'FRANCE ÊTES-VOUS UNIS?!',r:'OUI! LIBERTÉ ÉGALITÉ HUMANITÉ!',f:'LA FRANCE DEBOUT! LE PEUPLE PARLE!'},
+  ned:      {c:'NETHERLANDS DO WE STAND?!',r:'YES! AMSTERDAM UNITED! ONE VOICE!',f:'HOLLAND SPEAKS! DUTCH HEARTS AS ONE!'},
+  humanity: {c:'DO WE STAND FOR HUMANITY?!',r:'YES! WE STAND TOGETHER!',f:'PEACE! PEACE! FOR ALL!'},
+  stopwar:  {c:'WHAT DO WE CHOOSE?!',r:'PEACE! ALWAYS PEACE!',f:'CHOOSE PEACE! NO MORE WAR! ALWAYS!'},
+  freedom:  {c:'DO YOU BELIEVE IN FREEDOM?!',r:'FREEDOM FOR ALL SOULS!',f:'FREEDOM! FREEDOM! FOR ALL THE WORLD!'},
+  unity:    {c:'ARE WE UNITED AS ONE?!',r:'YES! WE ARE ONE!',f:'UNITED! UNITED! AS ONE!'},
+  justice:  {c:'DO WE STAND FOR JUSTICE?!',r:'JUSTICE FOR ALL!',f:'JUSTICE! JUSTICE! FOR ALL!'},
+  children: {c:'WHO DO WE PROTECT?!',r:'THE CHILDREN! ALWAYS!',f:'SAVE THE CHILDREN! PEACE NOW!'},
+  palestine:{c:'DO WE STAND FOR HUMANITY?!',r:'YES! EVERY SOUL MATTERS!',f:'STAND FOR HUMANITY! PEACE FOR ALL!'},
+  iran:     {c:'DO WE STAND FOR FREEDOM?!',r:'YES! FREEDOM FOR ALL SOULS!',f:'FREEDOM! FREEDOM! FOR ALL!'},
+  nokings:  {c:'WHO HAS THE POWER?!',r:'THE PEOPLE! ALWAYS THE PEOPLE!',f:'POWER TO THE PEOPLE! DIGNITY FOR ALL!'},
+  noice:    {c:'WHAT DO WE STAND FOR?!',r:'DIGNITY FOR EVERY HUMAN!',f:'DIGNITY! DIGNITY! FOR ALL!'},
+  armenia:  {c:'DO WE STAND FOR ARMENIA?!',r:'YES! WE STAND WITH ARMENIA!',f:'FREE! FREE! ARMENIA!'},
+  kurdistan:{c:'DO WE STAND FOR KURDISTAN?!',r:'YES! WE STAND WITH KURDISTAN!',f:'FREE! FREE! KURDISTAN!'},
+  yemen:    {c:'DO WE STAND FOR YEMEN?!',r:'YES! WE STAND WITH YEMEN!',f:'FREE! FREE! YEMEN!'},
+  tears:    {c:'[SILENCE]',r:'[crowd hums softly]',f:'[tears = the message]'}
+};
+
+var SCENE_DESC = {
+  aerial:'Massive crowd filling entire city boulevard aerial top-down millions no empty space',
+  stadium:'Ultra-packed football stadium 80000 seats filled colored smoke flares Ultras jumping giant flags',
+  bridge:'Massive crowd covering major bridge end to end aerial flags stretched full width city lights on water',
+  square:'Hundreds of thousands overflowing massive historic city square all surrounding streets dense crowd',
+  concert:'Sold-out stadium concert night artist massive stage sea of phone lights crowd maximum energy',
+  vlog:'Person walking through massive crowd filming selfie-style vlog showing scale behind them',
+  protest:'Night protest thousands of phone lights candles river of light through city streets aerial drone',
+  government:'Inside massive formal government hearing room tense silence sudden explosive confrontation',
+  military:'Military officers formal uniforms front of government building extreme emotional confrontation tears',
+  march:'Nighttime march city thousands candles phone lights sea of stars drone from above'
+};
+
+// SCHEDULE DATA
+var SCHEDULE = {
+  0: { // Lendi
+    label:'LENDI', flags:'🇦🇺🇳🇴',
+    countries:['Australia','Norway'],
+    slots:[
+      {time:'2:00 AM', country:'Australia 🇦🇺', city:'Sydney', type:'Stadium Night — Crowd Chant', slogan:'Australia Stands For Humanity', tags:'#Australia #Sydney #StadiumUnity #AiShort'},
+      {time:'4:00 AM', country:'Australia 🇦🇺', city:'Melbourne', type:'Bridge Aerial Crowd', slogan:'Every Voice Matters — Humanity United', tags:'#Australia #Melbourne #BridgeCrowd #AiShort'},
+      {time:'12:00 PM', country:'Norway 🇳🇴', city:'Oslo', type:'Waterfront Gathering Night', slogan:'Norway Stands For Every Human Soul', tags:'#Norway #Oslo #Waterfront #AiShort'},
+      {time:'2:00 PM', country:'Norway 🇳🇴', city:'Bergen', type:'Night March Candles', slogan:'Nordic Unity — One Voice', tags:'#Norway #Nordic #NightMarch #AiShort'}
+    ],
+    tip:{title:'🇦🇺🇳🇴 Lendi — Australia + Norway',rows:[['CPM mwayen','$28'],['Odyans aktif','7PM-9PM lokal'],['Sijè viral','Inite + Emosyon'],['Evite','Kontni politik dirèk']]}
+  },
+  1: { // Madi
+    label:'MADI', flags:'🇩🇪🇨🇭',
+    countries:['Germany','Switzerland'],
+    slots:[
+      {time:'12:00 PM', country:'Germany 🇩🇪', city:'Berlin', type:'Ultras Stadium Night Flares', slogan:'Wir Stehen Zusammen', tags:'#Germany #Berlin #Ultras #AiShort'},
+      {time:'1:00 PM', country:'Germany 🇩🇪', city:'Munich', type:'Stadium Crowd + Flares', slogan:'Deutschland Steht Für Frieden', tags:'#Germany #Munich #Stadium #AiShort'},
+      {time:'12:30 PM', country:'Switzerland 🇨🇭', city:'Zurich', type:'City Square Aerial', slogan:'Swiss Hearts Beat For Peace', tags:'#Switzerland #Zurich #CitySquare #AiShort'},
+      {time:'2:00 PM', country:'Switzerland 🇨🇭', city:'Geneva', type:'Bridge Crowd Night', slogan:'Geneva Speaks For The World', tags:'#Switzerland #Geneva #Bridge #AiShort'}
+    ],
+    tip:{title:'🇩🇪🇨🇭 Madi — Germany + Switzerland',rows:[['CPM mwayen','$17'],['Odyans aktif','7PM-9PM lokal'],['Sijè viral','Inite Ewopeyen'],['Langaj +viral','Alman + Angle']]}
+  },
+  2: { // Mèkredi
+    label:'MÈKREDI', flags:'🇺🇸🇨🇦',
+    countries:['USA','Canada'],
+    slots:[
+      {time:'7:00 PM', country:'USA 🇺🇸', city:'New York', type:'Capitol Protest — Veterans', slogan:'We The People — For Peace', tags:'#USA #NewYork #WeThePeople #AiShort'},
+      {time:'8:00 PM', country:'USA 🇺🇸', city:'Los Angeles', type:'Stadium Concert Night', slogan:'America Speaks — We Choose Peace', tags:'#USA #LosAngeles #Stadium #AiShort'},
+      {time:'7:00 PM', country:'Canada 🇨🇦', city:'Toronto', type:'Bridge Aerial Crowd', slogan:'True North Strong And Free For All', tags:'#Canada #Toronto #Bridge #AiShort'},
+      {time:'9:00 PM', country:'USA 🇺🇸', city:'Dallas', type:'Stadium Chant Night', slogan:'United We Stand — Always', tags:'#USA #Dallas #StadiumChant #AiShort'}
+    ],
+    tip:{title:'🇺🇸🇨🇦 Mèkredi — USA + Canada',rows:[['CPM mwayen','$15'],['Odyans aktif','7PM-9PM EST/CST'],['Sijè viral','Demokrasi + Veteran'],['Peak day','Mèkredi swa = peak']]}
+  },
+  3: { // Jedi
+    label:'JEDI', flags:'🇬🇧🇳🇱',
+    countries:['UK','Netherlands'],
+    slots:[
+      {time:'1:00 PM', country:'UK 🇬🇧', city:'London', type:'Tower Bridge Crowd Aerial', slogan:'London Speaks For Humanity', tags:'#UK #London #TowerBridge #AiShort'},
+      {time:'2:00 PM', country:'UK 🇬🇧', city:'Manchester', type:'Stadium Ultras Night', slogan:'Britain Stands For Justice', tags:'#UK #Manchester #Stadium #AiShort'},
+      {time:'12:00 PM', country:'Netherlands 🇳🇱', city:'Amsterdam', type:'Canal Bridge Night', slogan:'Amsterdam United One Voice', tags:'#Netherlands #Amsterdam #Canal #AiShort'},
+      {time:'1:30 PM', country:'UK 🇬🇧', city:'London', type:'Night March Candles', slogan:'One Nation One Hope', tags:'#UK #London #NightMarch #AiShort'}
+    ],
+    tip:{title:'🇬🇧🇳🇱 Jedi — UK + Netherlands',rows:[['CPM mwayen','$12'],['Odyans aktif','7PM-9PM lokal'],['Sijè viral','Jistis sosyal'],['Bon format','Stadium + Bridge']]}
+  },
+  4: { // Vandredi
+    label:'VANDREDI', flags:'🇦🇺🇰🇷',
+    countries:['Australia','South Korea'],
+    slots:[
+      {time:'2:00 AM', country:'Australia 🇦🇺', city:'Sydney', type:'Concert Stadium Night', slogan:'Australian Hearts Beat As One', tags:'#Australia #Sydney #Concert #AiShort'},
+      {time:'3:00 AM', country:'Australia 🇦🇺', city:'Melbourne', type:'Aerial Crowd City Square', slogan:'We Choose Hope Over Hate', tags:'#Australia #Melbourne #Aerial #AiShort'},
+      {time:'5:00 AM', country:'South Korea 🇰🇷', city:'Seoul', type:'K-Pop Concert Stadium', slogan:'Korea Stands — One World One Voice', tags:'#Korea #Seoul #KPop #AiShort'},
+      {time:'6:00 AM', country:'South Korea 🇰🇷', city:'Busan', type:'Waterfront Night Gathering', slogan:'Seoul United For Humanity', tags:'#Korea #Busan #Waterfront #AiShort'}
+    ],
+    tip:{title:'🇦🇺🇰🇷 Vandredi — Australia + Korea',rows:[['CPM mwayen','$22'],['Odyans aktif','Vandredi swa = viral'],['Sijè viral','Concert + K-Pop'],['Bon format','Concert + Aerial']]}
+  },
+  5: { // Samdi
+    label:'SAMDI', flags:'🇩🇪🇫🇷',
+    countries:['Germany','France'],
+    slots:[
+      {time:'11:00 AM', country:'Germany 🇩🇪', city:'Berlin', type:'Weekend Stadium Ultras', slogan:'Ein Volk Eine Stimme', tags:'#Germany #Berlin #Weekend #AiShort'},
+      {time:'12:00 PM', country:'Germany 🇩🇪', city:'Munich', type:'Stadium Flares Night', slogan:'German Hearts Beat For All', tags:'#Germany #Munich #Ultras #AiShort'},
+      {time:'12:30 PM', country:'France 🇫🇷', city:'Paris', type:'City Square Aerial Crowd', slogan:'Liberté Égalité Humanité', tags:'#France #Paris #CitySquare #AiShort'},
+      {time:'2:00 PM', country:'France 🇫🇷', city:'Lyon', type:'Bridge Night March', slogan:'La France Debout Pour La Paix', tags:'#France #Lyon #Bridge #AiShort'}
+    ],
+    tip:{title:'🇩🇪🇫🇷 Samdi — Germany + France',rows:[['CPM mwayen','$14'],['Odyans aktif','Weekend Ewòp = gwo'],['Sijè viral','Foutbòl + Inite'],['Tip','Samdi = + reach']]}
+  },
+  6: { // Dimanch
+    label:'DIMANCH', flags:'🇺🇸🇬🇧',
+    countries:['USA','UK'],
+    slots:[
+      {time:'1:00 PM', country:'UK 🇬🇧', city:'London', type:'Emotional Concert Night', slogan:'The Peoples Voice — UK', tags:'#UK #London #Emotional #AiShort'},
+      {time:'2:00 PM', country:'UK 🇬🇧', city:'Manchester', type:'Night Candles March', slogan:'United Kingdom United For Peace', tags:'#UK #Manchester #Candles #AiShort'},
+      {time:'7:00 PM', country:'USA 🇺🇸', city:'New York', type:'Stadium Peak Night', slogan:'America Speaks — We Choose Peace', tags:'#USA #NewYork #Stadium #AiShort'},
+      {time:'9:00 PM', country:'USA 🇺🇸', city:'Los Angeles', type:'Concert Finale', slogan:'United We Stand — Always', tags:'#USA #LosAngeles #Concert #AiShort'}
+    ],
+    tip:{title:'🇺🇸🇬🇧 Dimanch — USA + UK',rows:[['CPM mwayen','$16'],['Odyans aktif','Dimanch swa = peak'],['Sijè viral','Emosyon + Unity'],['Tip','Dimanch = + partaj']]}
+  }
+};
+
+// TEMPLATES
+var TPLS = [
+  {id:'t01',flag:'🇹🇷',title:'Istanbul — Mosque Night Crowd',badge:'🔥',desc:'Fanm sou platfòm. Mosquée Hagia Sophia. Drapo Tiki.',chant:'"Turkey Stands For Humanity!"',cfg:{scene:'stadium',artist:'female artist silhouette backlit on barrier',timeof:'night',mood:'explosive viral red flares smoke',theme:'humanity',crowd:'hundreds of thousands',extra:'Hagia Sophia mosque beautifully lit Istanbul night sky crowd waving large Turkish flags white signs phone lights'}},
+  {id:'t02',flag:'🇩🇪',title:'Germany — Ultras White Smoke Stadium',badge:'🔥',desc:'Fanm kapichon nwa. Lafimen blan. Banèy ULTRAS.',chant:'"Germany United! Wir Stehen Zusammen!"',cfg:{scene:'stadium',artist:'female black hoodie on stadium barrier backlit',timeof:'night',mood:'explosive viral red flares smoke',theme:'ger',crowd:'tens of thousands',extra:'massive white smoke flares drifting Ultras jumping black banner ULTRAS white red letters aerial drone bright floodlights'}},
+  {id:'t03',flag:'🇺🇸',title:'USA Capitol — Veterans Protest',badge:'🔥',desc:'Veteran militè. Polis ap kenbe. Drapo Ameriken.',chant:'"We The People — For Peace!"',cfg:{scene:'military',artist:'male military veteran back angle uniform',timeof:'golden hour',mood:'documentary realism',theme:'usa',crowd:'tens of thousands',extra:'American military veteran camouflage uniform two police officers restraining massive protest US Capitol signs PEACE NOW NO MORE WAR'}},
+  {id:'t04',flag:'🇺🇸',title:'Courtroom — Female Military Erupts',badge:'🔥',desc:'Ofisye militè fanm reziste kont polis nan sal.',chant:'"Stop The War! The People Want Peace!"',cfg:{scene:'government',artist:'female artist silhouette backlit on barrier',timeof:'night',mood:'raw chaotic handheld',theme:'stopwar',crowd:'tens of thousands',extra:'female US military officer green dress uniform medals resisting police officers government courtroom politicians shocked close-up screaming face running aisle'}},
+  {id:'t05',flag:'🇪🇸',title:'Spain — Selfie Vlog + Red Flares',badge:'🔥',desc:'Jèn fanm Espanyòl selfie mode. Flare wouj. Stadyon.',chant:'"Spain Stands — One Voice For Peace!"',cfg:{scene:'vlog',artist:'woman vlog selfie back angle',timeof:'night',mood:'emotional cinematic slow motion',theme:'aus',crowd:'tens of thousands',extra:'young Spanish woman long dark hair jeans white top stadium field red smoke flares switches selfie phone mode smiling massive crowd'}},
+  {id:'t06',flag:'🇨🇿',title:'Prague — Clock Tower Night Square',badge:'🔥',desc:'Gwo plas istorik Prague. Tou relòj astronomik. Fanm cheve mov.',chant:'"Prague Stands For Unity! Louder!"',cfg:{scene:'square',artist:'female artist silhouette backlit on barrier',timeof:'night',mood:'explosive viral red flares smoke',theme:'humanity',crowd:'hundreds of thousands',extra:'historical square Prague astronomical clock tower illuminated woman short purple hair black leather jacket red scarf high stage Czech flags red green smoke'}},
+  {id:'t07',flag:'🇰🇷',title:'K-Pop Concert — Tears + Phone Stars',badge:'🔥',desc:'Chantèz an rob blanch. Zetwal telefòn. Dlo nan je.',chant:'[Emosyon sèlman — pa gen mo]',cfg:{scene:'concert',artist:'female artist silhouette backlit on barrier',timeof:'night',mood:'emotional cinematic slow motion',theme:'tears',crowd:'hundreds of thousands',extra:'young Asian female singer white flowing dress concert stage stadium full star-like phone lights slow-motion close-ups women crying tears flowing singing South Korean flags waving'}},
+  {id:'t08',flag:'🇦🇺',title:'Sydney Stadium — Night Chant',badge:'⭐',desc:'Stadyon Sydney plen lannwit. Flare wouj. Foul eksplozif.',chant:'"Australia Stands For Humanity!"',cfg:{scene:'stadium',artist:'female artist silhouette backlit on barrier',timeof:'night',mood:'explosive viral red flares smoke',theme:'aus',crowd:'hundreds of thousands',extra:'Sydney Australia night stadium ultra-packed red flares giant Australian flag stretched full width 1080p HD'}},
+  {id:'t09',flag:'🇩🇪',title:'Berlin Ultras — Peace Chant',badge:'⭐',desc:'Ultras Berlin. Flare koulè. Banèy ULTRAS.',chant:'"Wir Stehen Zusammen! Germany As One!"',cfg:{scene:'stadium',artist:'female black hoodie on stadium barrier backlit',timeof:'night',mood:'explosive viral red flares smoke',theme:'ger',crowd:'tens of thousands',extra:'Berlin Germany night Ultras stadium colored smoke flares giant German flag 1080p HD'}},
+  {id:'t10',flag:'🇺🇸',title:'NYC — City Square Aerial Night',badge:'⭐',desc:'Drone sou Manhattan. Milye moun. Inite.',chant:'"We The People! United We Stand!"',cfg:{scene:'aerial',artist:'no artist crowd only',timeof:'night',mood:'explosive viral red flares smoke',theme:'usa',crowd:'hundreds of thousands',extra:'Manhattan New York aerial night massive crowd filling streets giant American flag phone lights 1080p HD'}}
+];
+
+// ============================================================
+// UI STATE
+// ============================================================
+var GC = 0, activeTpl = null, notifPerm = false;
+var scheduledNotifs = [];
+
+// ============================================================
+// TABS
+// ============================================================
+function swTab(t, el) {
+  document.querySelectorAll('.tb').forEach(function(x){x.classList.remove('on')});
+  el.classList.add('on');
+  document.querySelectorAll('.tab-content').forEach(function(x){x.classList.remove('on')});
+  document.getElementById('tab-'+t).classList.add('on');
+  if(t==='cal') buildCalendar();
+  if(t==='notif') buildNotifPage();
+}
+
+// ============================================================
+// PILLS
+// ============================================================
+function initPills(id, multi, cb) {
+  document.getElementById(id).addEventListener('click', function(e) {
+    var p = e.target.closest('.pill'); if(!p) return;
+    if(!multi) {
+      document.querySelectorAll('#'+id+' .pill').forEach(function(x){x.classList.remove('on')});
+      p.classList.add('on');
+    } else {
+      p.classList.toggle('on');
+      if(!document.querySelector('#'+id+' .pill.on')) p.classList.add('on');
+    }
+    if(cb) cb();
+  });
+}
+initPills('cPills', true, updateSloganBox);
+initPills('sPills', false);
+
+// ============================================================
+// SLOGAN BOX
+// ============================================================
+function updateSloganBox() {
+  var selected = document.querySelectorAll('#cPills .pill.on');
+  if(!selected.length){document.getElementById('sloganBox').style.display='none';return;}
+  var box = document.getElementById('sloganBox');
+  var list = document.getElementById('sloganList');
+  var title = document.getElementById('sloganTitle');
+  var html = '';
+  selected.forEach(function(p){
+    var c = p.dataset.c;
+    var d = SLOGANS[c];
+    if(!d) return;
+    html += '<div style="margin-bottom:8px">';
+    html += '<div style="font-size:11px;color:#ff6600;font-weight:700;margin-bottom:4px">'+d.flag+' '+c+' — CPM $'+d.cpm+'</div>';
+    d.slogans.forEach(function(s){
+      html += '<div style="font-size:11px;color:#aaa;padding:2px 0;border-bottom:1px solid #1a1a1a">▸ '+s+'</div>';
+    });
+    html += '<div style="font-size:10px;color:#555;margin-top:3px;font-family:monospace">⏰ '+d.postTime+'</div>';
+    html += '<div style="font-size:10px;color:#ff6600;margin-top:2px;font-family:monospace">'+d.tags+'</div>';
+    html += '</div>';
+  });
+  list.innerHTML = html;
+  title.textContent = '🎯 SLOGAN ADAPTE — '+selected.length+' peyi';
+  box.style.display = 'block';
+}
+
+// ============================================================
+// COPY
+// ============================================================
+function cp(id, btn) {
+  var el = document.getElementById(id);
+  var txt = (el.innerText||el.textContent||'').trim();
+  if(!txt){btn.textContent='—';setTimeout(function(){btn.textContent='Kopye'},1200);return;}
+  function done(){btn.textContent='✓ OK';btn.classList.add('ok');setTimeout(function(){btn.textContent='Kopye';btn.classList.remove('ok')},2000);}
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(done).catch(function(){fb(txt,btn,done)});
+  } else {fb(txt,btn,done);}
+}
+function fb(txt,btn,done){
+  var t=document.createElement('textarea');
+  t.value=txt;t.style.cssText='position:fixed;opacity:0;top:0;left:0';
+  document.body.appendChild(t);t.focus();t.select();
+  try{document.execCommand('copy');done();}catch(e){btn.textContent='Erè!';}
+  document.body.removeChild(t);
+}
+function doReset(){document.getElementById('out').classList.remove('on');document.getElementById('genBtn').disabled=false;}
+function showLoad(v){document.getElementById('loader').className=v?'ld on':'ld';}
+function showErr(m){var b=document.getElementById('errbox');b.textContent=m;b.className='err on';}
+function hideErr(){document.getElementById('errbox').className='err';}
+
+// ============================================================
+// PARSE JSON
+// ============================================================
+function parseR(raw){
+  var t=raw.replace(/```json/gi,'').replace(/```/g,'').trim();
+  try{return JSON.parse(t);}catch(e){}
+  var s=t.indexOf('{'),en=t.lastIndexOf('}');
+  if(s!==-1&&en>s){try{return JSON.parse(t.substring(s,en+1));}catch(e){}}
+  return {hook:'INSTANT EXPLOSIVE REVEAL',prompt:t,title:'🔥 Massive Crowd | Ai Short',tags:'#Crowd #Viral #AiShort #Unity #Humanity',editing:'Post 7PM-9PM local\n4 videos/day\nDrone aerial only\nSilhouette backlit'};
+}
+
+// ============================================================
+// GENERATE
+// ============================================================
+function doGen(){
+  var ctags=document.querySelectorAll('#cPills .pill.on');
+  if(!ctags.length){showErr('Chwazi omwen yon peyi!');return;}
+  var countries=[];
+  ctags.forEach(function(t){countries.push({c:t.dataset.c,f:t.dataset.f,city:t.dataset.city,cpm:parseInt(t.dataset.cpm)});});
+  countries.sort(function(a,b){return b.cpm-a.cpm;});
+  var top=countries[0];
+  var scEl=document.querySelector('#sPills .pill.on');
+  var scene=scEl?scEl.dataset.s:'aerial';
+  var scLabel=scEl?scEl.textContent.trim():'Aerial';
+  var scDesc=SCENE_DESC[scene]||SCENE_DESC.aerial;
+  var theme=document.getElementById('theme').value;
+  var artist=document.getElementById('artist').value;
+  var timeof=document.getElementById('timeof').value;
+  var mood=document.getElementById('mood').value;
+  var crowd=document.getElementById('crowd').value;
+  var qual=document.getElementById('qual').value;
+  var extra=document.getElementById('extra').value||'giant flag stretched full width phone lights colored smoke';
+  var cityLine=countries.map(function(x){return x.f+' '+x.city+' '+x.c;}).join(' / ');
+  var ch=CHANTS[theme]||CHANTS.humanity;
+  var isAuto=(theme==='auto');
+  var sd=SLOGANS[top.c];
+  var sloganHint=sd?'COUNTRY SLOGANS for '+top.c+': '+sd.slogans.join(' | ')+'\n':'';
+  var chantBlk=isAuto?
+    'CHANT: Pick the most powerful organic chant matching scene+location. Use country-specific slogans above. 3 rounds 5X LOUDER each.\n':
+    'CHANT 3 rounds 5X LOUDER each:\nRound1[LOUD]: '+ch.c+' / '+ch.r+'\nRound2[5X LOUDER audio distorts]: '+ch.c+' / '+ch.r+' '+ch.r+' '+ch.r+'\nRound3[EARTH-SHAKING MAXIMUM speakers blow]: '+ch.f+' '+ch.f+' '+ch.f+' '+ch.f+' '+ch.f+'\n';
+  var tplNote=activeTpl?'BASE TEMPLATE: '+activeTpl+' — stay faithful but fresh.\n\n':'';
+  var sys='You are viral AI video prompt expert for Viral Allure Facebook 211K followers 20M views/month. Output ONLY raw JSON no markdown no backticks. Keys: hook prompt title tags editing.';
+  var usr=tplNote+sloganHint+
+    'Viral ULTRA-SHORT 6-SECOND AI video. EVERY frame = explosion. NO political flags or chants — only universal humanitarian language adapted for the target country.\n\n'+
+    'QUALITY: '+qual+'\nLOCATION: '+cityLine+'\nSCENE: '+scDesc+'\nARTIST: '+artist+'\nTIME: '+timeof+'\nMOOD: '+mood+'\nCROWD: '+crowd+'\nEXTRA: '+extra+'\n\n'+
+    'STRICT 6-SECOND CAMERA:\n'+
+    '[0s-2s] HOOK — most shocking frame no build-up action starts frame 1\n'+
+    '[2s-4s] PEAK — crash zoom OR violent whip-pan chant 5X LOUDER\n'+
+    '[4s-6s] FINALE — image burned forever crowd EARTH-SHAKING last caption = SHARE\n\n'+
+    chantBlk+'\n'+
+    'ON-SCREEN CAPTIONS (stop scrolling make them watch to end):\n'+
+    '[0s] Caption 1: shocking provocative — hooks instantly\n'+
+    '[2s] Caption 2: emotional escalation — must see what comes next\n'+
+    '[4s] Caption 3: call to action payoff — makes them SHARE\n\n'+
+    'RULES:\n- 6 seconds ONLY\n- GIANT '+top.f+' flag full width visible dominant\n- NO clear faces drone silhouette backlit back-angle only\n- NO watermark\n- Frame as universal human emotion high CPM country audience\n- ALWAYS DIFFERENT words angles captions — never repeat\n- 1080p HD ULTRA\n- Biggest gathering ever filmed\n\n'+
+    'POSTING for editing field — include ALL:\n- Best day: (from schedule)\n- Best time CST: (exact)\n- Videos per day: 4\n- Interval: minimum 3h between posts\n- Face hiding: 3 specific tips\n\n'+
+    'TITLE: '+top.f+' [City] [Country] | [description] | Ai Short\n\n'+
+    'JSON: {"hook":"","prompt":"","title":"","tags":"","editing":""}';
+
+  showLoad(true);hideErr();
+  document.getElementById('out').classList.remove('on');
+  document.getElementById('genBtn').disabled=true;
+
+  fetch('/api/generate',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({system:sys,user:usr})
+  })
+  .then(function(r){return r.json();})
+  .then(function(data){
+    if(data.error) throw new Error(data.error);
+    var raw=data.text||'';
+    if(!raw) throw new Error('Repons vid');
+    var res=parseR(raw);
+    GC++;
+    document.getElementById('hook').textContent=res.hook||'';
+    document.getElementById('prompt').textContent=res.prompt||'';
+    document.getElementById('title').textContent=res.title||'';
+    document.getElementById('tags').textContent=res.tags||'';
+    document.getElementById('edit').textContent=res.editing||'';
+    document.getElementById('gc').textContent='Gen #'+GC;
+    document.getElementById('cpmbadge').textContent='CPM $'+top.cpm+' '+top.f;
+    document.getElementById('sbadge').textContent=scLabel;
+    document.getElementById('cbadge').textContent=top.city;
+    document.getElementById('out').classList.add('on');
+    document.getElementById('genBtn').disabled=false;
+    document.getElementById('out').scrollIntoView({behavior:'smooth',block:'start'});
+  })
+  .catch(function(err){
+    showErr('Erè: '+(err.message||err)+' — Eseye ankò!');
+    document.getElementById('genBtn').disabled=false;
+  })
+  .finally(function(){showLoad(false);});
+}
+
+// ============================================================
+// TEMPLATES
+// ============================================================
+function buildTemplates(gridId){
+  var grid=document.getElementById(gridId);
+  if(!grid||grid.dataset.built) return;
+  grid.dataset.built='1';
+  TPLS.forEach(function(t,i){
+    var d=document.createElement('div');
+    d.className='tc';d.id='tpl-'+gridId+'-'+t.id;
+    d.innerHTML='<div class="tn"><div class="tnum">'+(i+1<10?'0'+(i+1):i+1)+'</div><div class="ttit">'+t.flag+' '+t.title+'</div><div class="tbadge">'+t.badge+'</div></div><div class="tdesc">'+t.desc+'</div><div class="tchant">'+t.chant+'</div><button class="tuse" onclick="useTpl(\''+t.id+'\',event)">⚡ Itilize</button>';
+    grid.appendChild(d);
+  });
+}
+buildTemplates('tplGrid');
+buildTemplates('tplGridFull');
+
+function setScene(s){
+  document.querySelectorAll('#sPills .pill').forEach(function(p){p.classList[p.dataset.s===s?'add':'remove']('on');});
+}
+function useTpl(id,e){
+  if(e)e.stopPropagation();
+  var t=TPLS.find(function(x){return x.id===id;});if(!t)return;
+  activeTpl=t.title;
+  var c=t.cfg;
+  setScene(c.scene);
+  document.getElementById('artist').value=c.artist;
+  document.getElementById('timeof').value=c.timeof;
+  document.getElementById('mood').value=c.mood;
+  document.getElementById('theme').value=c.theme;
+  document.getElementById('crowd').value=c.crowd||'tens of thousands';
+  document.getElementById('extra').value=c.extra;
+  document.querySelectorAll('.tc').forEach(function(x){x.classList.remove('on');});
+  document.querySelectorAll('[id^="tpl-"][id$="-'+id+'"]').forEach(function(x){x.classList.add('on');});
+  swTab('gen',document.querySelector('.tb'));
+}
+
+// ============================================================
+// CALENDAR
+// ============================================================
+function buildCalendar(){
+  var row=document.getElementById('daysRow');
+  if(row.dataset.built) return;
+  row.dataset.built='1';
+  var dayNames=['LEN','MAD','MÈK','JED','VAN','SAM','DIM'];
+  var today=new Date().getDay();
+  var mapped=[1,2,3,4,5,6,0];
+  dayNames.forEach(function(name,i){
+    var d=document.createElement('div');
+    d.className='day-btn'+(i===0?' on':'');
+    var sch=SCHEDULE[mapped[i]];
+    d.innerHTML='<span class="day-name">'+name+'</span><span class="day-flags">'+sch.flags+'</span>';
+    d.onclick=(function(idx){return function(){
+      document.querySelectorAll('.day-btn').forEach(function(x){x.classList.remove('on')});
+      d.classList.add('on');
+      showSchedule(SCHEDULE[mapped[idx]]);
+    };})(i);
+    row.appendChild(d);
+  });
+  showSchedule(SCHEDULE[1]);
+}
+
+function showSchedule(sch){
+  var box=document.getElementById('scheduleBox');
+  var title=document.getElementById('schTitle');
+  var slots=document.getElementById('schSlots');
+  var tipBox=document.getElementById('countryTipBox');
+  title.textContent=sch.label+' — '+sch.flags;
+  var html='';
+  sch.slots.forEach(function(s,i){
+    html+='<div class="post-slot">';
+    html+='<div class="slot-head"><div class="slot-num">'+(i+1)+'</div><div class="slot-time">⏰ '+s.time+' CST</div><div class="slot-country">'+s.country+'</div></div>';
+    html+='<div class="slot-body">';
+    html+='<div class="slot-type">🎬 '+s.type+'</div>';
+    html+='<div class="slot-slogan">💬 "'+s.slogan+'"</div>';
+    html+='<div class="slot-tags">'+s.tags+'</div>';
+    if(notifPerm){
+      html+='<button class="notif-btn" onclick="setSlotNotif(\''+s.time+'\',\''+sch.label+'\',\''+s.country+'\','+i+',this)">🔔 Mete alèt 30 min avan</button>';
+    }
+    html+='</div></div>';
+  });
+  slots.innerHTML=html;
+  var tip=sch.tip;
+  var th='<div class="country-tip"><div class="tip-title">'+tip.title+'</div>';
+  tip.rows.forEach(function(r){th+='<div class="tip-row"><span>'+r[0]+'</span><span class="tip-val">'+r[1]+'</span></div>';});
+  th+='</div>';
+  tipBox.innerHTML=th;
+  box.className='schedule on';
+}
+
+// ============================================================
+// NOTIFICATIONS
+// ============================================================
+function togSwitch(el){el.classList.toggle('on');}
+
+function reqPerm(){
+  if(!('Notification' in window)){
+    alert('Navigatè ou pa sipòte notifikasyon. Eseye Chrome oswa Safari.');
+    return;
+  }
+  Notification.requestPermission().then(function(p){
+    if(p==='granted'){
+      notifPerm=true;
+      document.getElementById('permBox').style.display='none';
+      document.getElementById('permOk').style.display='block';
+      buildNotifPage();
+      scheduleAllNotifs();
+    } else {
+      alert('Ou refize notifikasyon yo. Chanje paramèt navigatè ou pou aktive yo.');
+    }
+  });
+}
+
+function scheduleAllNotifs(){
+  if(!notifPerm) return;
+  var now=new Date();
+  var day=now.getDay();
+  var mapped={1:0,2:1,3:2,4:3,5:4,6:5,0:6};
+  var todayIdx=mapped[day];
+  var sch=SCHEDULE[day];
+  if(!sch) return;
+  sch.slots.forEach(function(s){
+    var parts=s.time.match(/(\d+):(\d+)\s*(AM|PM)/i);
+    if(!parts) return;
+    var h=parseInt(parts[1]);
+    var m=parseInt(parts[2]);
+    var ap=parts[3].toUpperCase();
+    if(ap==='PM'&&h!==12) h+=12;
+    if(ap==='AM'&&h===12) h=0;
+    var postTime=new Date(now.getFullYear(),now.getMonth(),now.getDate(),h,m,0,0);
+    var notifTime=new Date(postTime.getTime()-30*60*1000);
+    var diff=notifTime.getTime()-now.getTime();
+    if(diff>0){
+      setTimeout(function(){
+        new Notification('🔥 VIRAL ALLURE — Posting dan 30 minit!',{
+          body:'📍 '+s.country+' | ⏰ '+s.time+'\n🎬 '+s.type+'\n💬 "'+s.slogan+'"',
+          icon:'https://via.placeholder.com/64/ff5500/ffffff?text=VA'
+        });
+      },diff);
+    }
+  });
+}
+
+function setSlotNotif(time,day,country,idx,btn){
+  if(!notifPerm){reqPerm();return;}
+  var parts=time.match(/(\d+):(\d+)\s*(AM|PM)/i);
+  if(!parts){btn.textContent='⚠️ Erè';return;}
+  var h=parseInt(parts[1]),m=parseInt(parts[2]),ap=parts[3].toUpperCase();
+  if(ap==='PM'&&h!==12)h+=12;
+  if(ap==='AM'&&h===12)h=0;
+  var now=new Date();
+  var postT=new Date(now.getFullYear(),now.getMonth(),now.getDate(),h,m,0,0);
+  var diff=postT.getTime()-30*60*1000-now.getTime();
+  if(diff<0){btn.textContent='⚠️ Lè pase';return;}
+  setTimeout(function(){
+    new Notification('🔥 VIRAL ALLURE — Post #'+(idx+1)+' dan 30 minit!',{
+      body:'📍 '+country+' | ⏰ '+time+'\n🎬 Prepare videyo ou!',
+      icon:'https://via.placeholder.com/64/ff5500/ffffff?text=VA'
+    });
+  },diff);
+  btn.textContent='✅ Alèt aktive!';
+  btn.classList.add('set');
+}
+
+function buildNotifPage(){
+  var today=new Date();
+  var day=today.getDay();
+  var sch=SCHEDULE[day];
+  var todayHtml='';
+  if(sch){
+    sch.slots.forEach(function(s,i){
+      var isPast=false;
+      var parts=s.time.match(/(\d+):(\d+)\s*(AM|PM)/i);
+      if(parts){
+        var h=parseInt(parts[1]),m=parseInt(parts[2]),ap=parts[3].toUpperCase();
+        if(ap==='PM'&&h!==12)h+=12;
+        if(ap==='AM'&&h===12)h=0;
+        var postT=new Date(today.getFullYear(),today.getMonth(),today.getDate(),h,m,0,0);
+        isPast=postT<today;
+      }
+      todayHtml+='<div class="notif-item"><div class="notif-dot'+(isPast?' ok':'')+'"></div><div style="flex:1"><div style="font-size:12px;color:#e0e0e0;font-weight:700">'+s.time+' — '+s.country+'</div><div style="font-size:11px;color:#666;margin-top:1px">'+s.type+'</div><div style="font-size:10px;color:#ff7700;margin-top:1px">"'+s.slogan+'"</div></div>'+(isPast?'<div style="font-size:10px;color:#4caf50">✓ Pase</div>':'<div style="font-size:10px;color:#ff5500">⏳ Avan</div>')+'</div>';
+    });
+  }
+  document.getElementById('todayNotifs').innerHTML=todayHtml||'<div style="color:#444;font-size:12px">Anyen jodi a encore</div>';
+  var weekHtml='';
+  var dayNames=['Dimanch','Lendi','Madi','Mèkredi','Jedi','Vandredi','Samdi'];
+  [1,2,3,4,5,6,0].forEach(function(d){
+    var s=SCHEDULE[d];
+    weekHtml+='<div class="notif-item" style="align-items:flex-start"><div class="notif-dot"></div><div style="flex:1"><div style="font-size:12px;font-weight:700;color:#ff6600">'+s.label+' '+s.flags+'</div>';
+    s.slots.forEach(function(sl){
+      weekHtml+='<div style="font-size:11px;color:#666;padding:1px 0">'+sl.time+' — '+sl.country+' — '+sl.type+'</div>';
+    });
+    weekHtml+='</div></div>';
+  });
+  document.getElementById('weekNotifs').innerHTML=weekHtml;
+}
+
+// INIT
+if('Notification' in window && Notification.permission==='granted'){
+  notifPerm=true;
+  scheduleAllNotifs();
+}
+</script>
+</body>
+</html>
